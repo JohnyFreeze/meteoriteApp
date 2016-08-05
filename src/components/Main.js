@@ -8,6 +8,8 @@ import FlatButton from 'material-ui/FlatButton';
 import React from 'react';
 import * as axios from 'axios';
 import moment from "moment";
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 const styles = {
   root: {
@@ -58,26 +60,31 @@ var TableBox = React.createClass({
           if (!meteorite.mass) {
             meteorite.mass = 0;
           }
+          console.log('suuuup');
           if(meteorite.year){
             meteorite.date = new Date(meteorite.year);
             rawData.push(meteorite);
           }
         });
 
+        console.log('length of data',rawData.length);
+
         var newArr1 = _.sortBy(rawData, 'year', function (n) {
           return n + '';
         }).reverse();
+        var Arr1 =_.take(newArr1, 1000);
 
         var newArr2 = _.sortBy(rawData, function (raw) {
           return parseInt(raw.mass);
         }).reverse();
+        var Arr2 =_.take(newArr2, 1000);
 
         _this.setState(function (state) {
           return {
-            data1: state.data1.concat(newArr1),
-            data2: state.data2.concat(newArr2)
+            data1: Arr1,
+            data2: Arr2
           };
-        });
+         });
       });
   },
   render: function() {
